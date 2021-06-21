@@ -1,0 +1,14 @@
+<launch>   
+	<param name="data" value="/" />
+	<!-- Play Bag File -->   
+	<node pkg="rosbag" type="play" name="rosbag_p" required="true" args="/home/zinuok/Dataset/kaistviodataset/data/$(arg data).bag"/>
+
+	<!-- Uncompress images -->   
+	<node pkg="image_transport" type="republish" name="decompress_node1" args="compressed in:=/camera/color/image_raw out:=/camera/color/image_raw/out" />
+	<node pkg="image_transport" type="republish" name="decompress_node2" args="compressed in:=/camera/infra1/image_rect_raw out:=/camera/infra1/image_rect_raw/out" />
+	<node pkg="image_transport" type="republish" name="decompress_node3" args="compressed in:=/camera/infra2/image_rect_raw out:=/camera/infra2/image_rect_raw/out" />
+
+
+	<node pkg="rosbag" type="record" name="rosbag_r" required="true" args="/camera/color/image_raw/out /camera/infra1/image_rect_raw/out /camera/infra2/image_rect_raw/out /mavros/imu/data /pose_transformed -O /home/zinuok/Dataset/kaistviodataset/data/$(arg data)_out.bag"/>
+
+</launch>
