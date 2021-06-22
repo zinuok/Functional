@@ -1,0 +1,21 @@
+<launch>   
+	<!-- Uncompress images -->   
+<!--	<node pkg="image_transport" type="republish" name="decompress_node1" args="compressed in:=/d435_d/color/image_raw out:=/camera/color/image_raw/out" />-->
+	<node pkg="image_transport" type="republish" name="decompress_node2" args="compressed in:=/d435_d/infra1/image_rect_raw out:=/d435_d/infra1/image_rect_raw/out" />
+	<node pkg="image_transport" type="republish" name="decompress_node3" args="compressed in:=/d435_d/infra2/image_rect_raw out:=/d435_d/infra2/image_rect_raw/out" />
+	<node pkg="image_transport" type="republish" name="decompress_node4" args="compressed in:=/d435_u/infra1/image_rect_raw out:=/d435_u/infra1/image_rect_raw/out" />
+	<node pkg="image_transport" type="republish" name="decompress_node5" args="compressed in:=/d435_u/infra2/image_rect_raw out:=/d435_u/infra2/image_rect_raw/out" />
+	<node pkg="image_transport" type="republish" name="decompress_node6" args="compressed in:=/d435_u/infra1/image_rect_raw out:=/d435_u/infra1/image_rect_raw/out" />
+	<node pkg="image_transport" type="republish" name="decompress_node7" args="compressed in:=/t265/fisheye1/image_raw out:=/t265/fisheye1/image_raw/out" />
+	
+	<!-- play ROS bag -->   
+	<node pkg="rosbag" type="play" name="rosbag" required="true" args="-r 4 /home/zinuok/Dataset/hanjeon/updown1.bag"/>
+
+	<!-- export images from ROS bag -->  
+	<node name="extract" pkg="image_view" type="extract_images" respawn="false" required="true" output="screen" cwd="ROS_HOME">
+   		<remap from="image" to="/d435_d/infra1/image_rect_raw/out"/>
+<!--		<remap from="image" to="/t265/fisheye1/image_raw/out"/>-->
+<!--		<param name="sec_per_frame" value="0.2"/>-->
+   	</node>
+
+</launch>
